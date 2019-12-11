@@ -69,7 +69,7 @@ public class LoginTests {
 	}
 	
 	
-	@Test(priority=1,enabled=false)
+	@Test(priority=1)
 	public void Customer() throws InterruptedException {
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);
@@ -112,7 +112,7 @@ public class LoginTests {
 			System.out.println(cust.getTableRow(driver).size()+" results found");
 		
 	}
-	@Test(priority=2,enabled=false)
+	@Test(priority=2)
 	public void Sales() throws InterruptedException {
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);

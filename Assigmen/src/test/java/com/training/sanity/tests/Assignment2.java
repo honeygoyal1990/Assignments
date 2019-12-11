@@ -62,7 +62,7 @@ public class Assignment2 {
 	}
 	
 	
-	@Test(enabled=false)
+	@Test()
 	public void Catalog() throws InterruptedException
 	{
 		int editProduct=0;
