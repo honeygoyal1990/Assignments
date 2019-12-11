@@ -18,6 +18,7 @@ import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
 import com.training.pom.LoginPOM;
+import com.training.pom.ProductReturnPage;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
@@ -37,6 +38,7 @@ public class LoginTests {
 	customerPage cust=new customerPage();
 	salesPage sale=new salesPage();
 	shoppingCartPage shop=new shoppingCartPage();
+	ProductReturnPage prod=new ProductReturnPage();
 	String username,password;
 	@BeforeTest
 	public static void setUpBeforeClass() throws IOException {
@@ -65,14 +67,9 @@ public class LoginTests {
 		Thread.sleep(1000);
 		driver.quit();
 	}
-	//@Test
-	//public void validLoginTest() {
-		
-		
-		//screenShot.captureScreenShot("First");
-	//}
 	
-	@Test(priority=1)
+	
+	@Test(priority=1,enabled=false)
 	public void Customer() throws InterruptedException {
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);
@@ -101,8 +98,8 @@ public class LoginTests {
 	else
 		System.out.println(cust.getTableRow(driver).size()+" results found");
 	Thread.sleep(1000);
-	driver.findElement(By.id("input-email")).sendKeys("neha1@gmail.com");
-	driver.findElement(By.id("button-filter")).click();
+	cust.getEmail(driver).sendKeys("neha1@gmail.com");
+	cust.getFilter(driver).click();
 
 		if(cust.getTableRow(driver).size()==1) 
 		{
@@ -115,7 +112,7 @@ public class LoginTests {
 			System.out.println(cust.getTableRow(driver).size()+" results found");
 		
 	}
-	@Test(priority=2)
+	@Test(priority=2,enabled=false)
 	public void Sales() throws InterruptedException {
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);
@@ -144,42 +141,42 @@ public class LoginTests {
 	public void shoppingCart() throws InterruptedException {
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);
-		act.moveToElement(driver.findElement(By.xpath("//ul[@id='menu']/li[5]"))).build().perform();
-		Thread.sleep(1000);
-		act.moveToElement(driver.findElement(By.xpath("//ul[@id='menu']/li[5]/ul/li[2]"))).click().build().perform();
-		Thread.sleep(1000);
-	driver.findElement(By.id("input-order-recurring-id")).sendKeys("1");
-	driver.findElement(By.id("button-filter")).click();
-	Thread.sleep(1000);
-	if(driver.findElements(By.xpath("//form[@id='form']/div/table/tbody/tr/td")).size()==1) {
-		System.out.println("0 Result Found");
-	}
-
-	else
-		System.out.println(driver.findElements(By.xpath("//form[@id='form']/div/table/tbody/tr")).size()+" result found");
-					
-	}
-	@Test(priority=3)
-	public void productReturn() throws InterruptedException {
-		Thread.sleep(1000);
-		Actions act=new Actions(driver);
 		act.moveToElement(shop.getshopMenu(driver)).build().perform();
 		Thread.sleep(1000);
 		act.moveToElement(shop.getshopSubMenu(driver)).click().build().perform();
 		Thread.sleep(1000);
-	driver.findElement(By.id("input-return-id")).sendKeys("207");
-	driver.findElement(By.id("button-filter")).click();
+	shop.getTextBox(driver).sendKeys("1");
+	shop.filter(driver).click();
 	Thread.sleep(1000);
-	driver.findElement(By.id("input-customer")).sendKeys("Renu");
-	driver.findElement(By.id("button-filter")).click();
-	Thread.sleep(1000);
-	
 	if(shop.getTableData(driver).size()==1) {
 		System.out.println("0 Result Found");
 	}
 
 	else
 		System.out.println(shop.getTableRow(driver).size()+" result found");
+					
+	}
+	@Test(priority=3)
+	public void productReturn() throws InterruptedException {
+		Thread.sleep(1000);
+		Actions act=new Actions(driver);
+		act.moveToElement(prod.getshopMenu(driver)).build().perform();
+		Thread.sleep(1000);
+		act.moveToElement(prod.getshopSubMenu(driver)).click().build().perform();
+		Thread.sleep(1000);
+	prod.getTextBox(driver).sendKeys("207");
+	prod.filter(driver).click();
+	Thread.sleep(1000);
+	prod.getCustTextBox(driver).sendKeys("Renu");
+	prod.filter(driver).click();
+	Thread.sleep(1000);
+	
+	if(prod.getTableData(driver).size()==1) {
+		System.out.println("0 Result Found");
+	}
+
+	else
+		System.out.println(prod.getTableRow(driver).size()+" result found");
 					
 	}
 	

@@ -13,9 +13,15 @@ public class customerPage {
 	By custFilter=By.id("button-filter");
 	By tr=By.xpath("//form[@id='form-customer']/div/table/tbody/tr");
 	By td=By.xpath("//form[@id='form-customer']/div/table/tbody/tr/td");
+	By email= By.id("input-email");
 	public WebElement getCustMenu(WebDriver driver) {
 		
 		return driver.findElement(this.custMenu);
+		
+	}
+public WebElement getEmail(WebDriver driver) {
+		
+		return driver.findElement(this.email);
 		
 	}
 public List<WebElement> getcustSubMenu(WebDriver driver) {
