@@ -19,7 +19,7 @@ import com.training.generics.ScreenShot;
 import com.training.pom.LocatorInfo;
 import com.training.pom.LoginPOM;
 import com.training.pom.ProductsPage;
-
+import com.training.pom.shoppingCartPage;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
@@ -31,6 +31,7 @@ public class Assignment2 {
 	private ScreenShot screenShot;
 	LocatorInfo loc=new LocatorInfo();
 	ProductsPage prods=new ProductsPage();
+	shoppingCartPage shop=new shoppingCartPage();
 	String username,password;
 	String expectedmsg = "Success: You have modified products!";
 	@BeforeSuite
@@ -119,6 +120,21 @@ public class Assignment2 {
 			Thread.sleep(1000);
 		
 		Assert.assertEquals(expectedmsg.contains(prods.getmsg(driver).getText()),true);
+	}
+	@Test(priority=2)
+	void orders() throws InterruptedException
+	{
+		Actions act=new Actions(driver);
+		act.moveToElement(shop.getshopMenu(driver)).build().perform();
+		Thread.sleep(1000);
+		act.moveToElement(shop.getorderMenu(driver)).click().build().perform();
+		int editProduct=shop.getBtn(driver).size();
+		Assert.assertNotEquals(editProduct, 0);
+		Thread.sleep(1000);
+		shop.geteditbtn(driver).click();
+		Thread.sleep(500);
+		shop.getContinue(driver).click();
+		Thread.sleep(1000);
 	}
 }
 
