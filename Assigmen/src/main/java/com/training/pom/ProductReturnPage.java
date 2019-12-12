@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ProductReturnPage {
-	By shoppingMenu=By.xpath("//ul[@id='menu']/li[5]");
-	By shoppingSubMenu=By.xpath("//ul[@id='menu']/li[5]/ul/li[3]");
+	By shoppingMenu=By.xpath("//ul[@id='menu']/li[@id='sale']");
+	By shoppingSubMenu=By.xpath("//ul[@id='menu']/li[@id='sale']/ul/li/a[contains(text(),'Returns')]");
 By textBox = By.id("input-return-id");
 By custtextBox = By.id("input-customer");
 By shopFilter = By.id("button-filter");

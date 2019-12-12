@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Properties;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
@@ -16,6 +18,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.training.generics.ScreenShot;
+import com.training.pom.AddProductsPage;
 import com.training.pom.LocatorInfo;
 import com.training.pom.LoginPOM;
 import com.training.pom.ProductsPage;
@@ -32,6 +35,7 @@ public class Assignment2 {
 	LocatorInfo loc=new LocatorInfo();
 	ProductsPage prods=new ProductsPage();
 	shoppingCartPage shop=new shoppingCartPage();
+	AddProductsPage addProd=new AddProductsPage();
 	String username,password;
 	String expectedmsg = "Success: You have modified products!";
 	@BeforeSuite
@@ -63,7 +67,7 @@ public class Assignment2 {
 	}
 	
 	
-	@Test()
+	@Test(enabled=false)
 	public void Catalog() throws InterruptedException
 	{
 		int editProduct=0;
@@ -71,15 +75,11 @@ public class Assignment2 {
 		getProduct(act);
 		editProduct=prods.getBtn(driver).size();
 		Assert.assertNotEquals(editProduct, 0);
-		prods.geteditbtn(driver).click();
-		Thread.sleep(500);
-		prods.getDataTab(driver).click();
-		Thread.sleep(500);
-		prods.getqtyTextBox(driver).clear();
-		prods.getqtyTextBox(driver).sendKeys("100");
-				prods.getsaveBtn(driver).click();
-		Thread.sleep(500);
-				Assert.assertEquals(expectedmsg.contains(prods.getmsg(driver).getText()),true);
+		btnClick(prods.geteditbtn(driver));
+		btnClick(prods.getDataTab(driver));
+		txtSend(prods.getqtyTextBox(driver),"100");
+		btnClick(prods.getsaveBtn(driver));
+		Assert.assertEquals(expectedmsg.contains(prods.getmsg(driver).getText()),true);
 			
 	}
 
@@ -89,11 +89,9 @@ public class Assignment2 {
 		prods.getprodSubMenu(driver).click();
 		Thread.sleep(1000);
 	}	
-	@Test(priority=1)
+	@Test(priority=1,enabled=false)
 	void delete() throws InterruptedException
 	{
-		int i=1;
-		
 		Actions act =new Actions(driver);
 		getProduct(act);
 		String expected=properties.getProperty("expectedProd");
@@ -107,18 +105,13 @@ public class Assignment2 {
 			if(expected.equals(we.getText()))
 			{
 				System.out.println("hey");
-				
-					we.findElement(By.xpath("./parent::tr")).findElement(By.xpath("./td[1]")).click();
+				btnClick(we.findElement(By.xpath("./parent::tr")).findElement(By.xpath("./td[1]")));
 				System.out.println(we.findElement(By.xpath("./parent::tr")).findElement(By.xpath("./td[6]")).getText());
-				
 			}
-			
 		}
 		driver.findElement(By.xpath("//i[@class='fa fa-trash-o']")).click();
 		driver.switchTo().alert().accept();
-	
-			Thread.sleep(1000);
-		
+		Thread.sleep(1000);
 		Assert.assertEquals(expectedmsg.contains(prods.getmsg(driver).getText()),true);
 	}
 	@Test(priority=2)
@@ -131,10 +124,51 @@ public class Assignment2 {
 		int editProduct=shop.getBtn(driver).size();
 		Assert.assertNotEquals(editProduct, 0);
 		Thread.sleep(1000);
-		shop.geteditbtn(driver).click();
-		Thread.sleep(500);
-		shop.getContinue(driver).click();
+		btnClick(shop.geteditbtn(driver));
+		btnClick(shop.getContinue(driver));
+		
+		
+		try {
+			if(driver.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr/td")).size()==1)
+			{
+				if(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td")).getText().contains("No Result"))
+				System.out.println("No Element to delete");
+			}
+			else {
+		if(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td[contains(text(),'REGULAR T-SHIRTS (Rust) ')]")).isDisplayed()) {
+			
+	System.out.println("Item deleted");
+			btnClick(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td[6]/button[@data-original-title='Remove']")));
+		}		}
+		}
+		catch(NullPointerException e) {
+			e.printStackTrace();}
+		
+		
+		finally {
+			//txtSend(addProd.getprodtxtbox(driver),"Blazer");
+			//txtSend(addProd.getqtytxtbox(driver),"1");
+		//	btnClick(addProd.getAddBtn(driver));	
+		
+		btnClick(addProd.getCartBtn(driver));
+		btnClick(addProd.getPaymenntBtn(driver));
+		btnClick(addProd.getShippingbtn(driver));
+		JavascriptExecutor js=(JavascriptExecutor)driver;
+		js.executeScript("window.scrollBy(0,document.body.scrollHeight);");
+		
+		btnClick(addProd.getsaveBtn(driver));}
+				
+	}
+	void btnClick(WebElement we) throws InterruptedException
+	{
+		we.click();
 		Thread.sleep(1000);
+	}
+	void txtSend(WebElement we,String str) throws InterruptedException
+	{
+		we.clear();
+		we.sendKeys(str);
+		Thread.sleep(500);
 	}
 }
 

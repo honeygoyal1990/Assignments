@@ -7,9 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class salesPage {
-	By salesMenu=By.xpath("//ul[@id='menu']/li[9]");
-	By SubMenu=By.xpath("//ul[@id='menu']/li[9]/ul/li");
-	By salesSubMenu=By.xpath("//ul[@id='menu']/li[9]/ul/li[1]/ul/li");
+	By salesMenu=By.xpath("//ul[@id='menu']/li[@id='reports']/a/i");
+	By SubMenu=By.xpath("//ul[@id='menu']/li[@id='reports']/ul/li/a[contains(text(),'Sales')]");
+	By salesSubMenu=By.xpath("//ul[@id='menu']/li[@id='reports']/ul/li//ul/li/a[contains(text(),'Orders')]");
 	
 	public WebElement getsalesMenu(WebDriver driver) {
 		
@@ -22,9 +22,9 @@ public List<WebElement> getSubMenu(WebDriver driver) {
 		return driver.findElements(this.SubMenu);
 		
 	}
-public List<WebElement> getsalesSubMenu(WebDriver driver) {
+public WebElement getsalesSubMenu(WebDriver driver) {
 	
-	return driver.findElements(this.salesSubMenu);
+	return driver.findElement(this.salesSubMenu);
 	
 }
 }

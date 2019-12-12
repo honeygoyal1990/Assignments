@@ -126,12 +126,12 @@ public class LoginTests {
 		countOfElement=sale.getSubMenu(driver).size();
 	
 		for(i=0;i<countOfElement;i++) {
-			org.testng.Assert.assertEquals(expectedEle[i],sale.getsalesSubMenu(driver).get(i).getText());
+			org.testng.Assert.assertEquals(expectedEle[i],sale.getsalesSubMenu(driver).getText());
 			
 			
 		}
 	
-		act.moveToElement(sale.getsalesSubMenu(driver).get(3)).click().build().perform();
+		act.moveToElement(sale.getsalesSubMenu(driver)).click().build().perform();
 		Thread.sleep(1000);
 	
 		

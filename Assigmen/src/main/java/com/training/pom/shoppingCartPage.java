@@ -7,9 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class shoppingCartPage {
-	By shoppingMenu=By.xpath("//ul[@id='menu']/li[5]");
-	By shoppingSubMenu=By.xpath("//ul[@id='menu']/li[5]/ul/li[2]");
-	By orderMenu=By.xpath("//ul[@id='menu']/li[5]/ul/li[1]");
+	By shoppingMenu=By.xpath("//ul[@id='menu']/li[@id='sale']");
+	By shoppingSubMenu=By.xpath("//ul[@id='menu']/li[@id='sale']/ul/li/a[contains(text(),'Recurring Orders')]");
+	By orderMenu=By.xpath("//ul[@id='menu']/li[@id='sale']/ul/li/a[contains(text(),'Orders')]");
 By textBox = By.id("input-order-recurring-id");
 By shopFilter = By.id("button-filter");
 	By tr=By.xpath("//form[@id='form']/div/table/tbody/tr");

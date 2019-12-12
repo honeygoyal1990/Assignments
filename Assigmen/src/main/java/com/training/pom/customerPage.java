@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class customerPage {
-	By custMenu=By.xpath("//ul[@id='menu']/li[6]");
-	By custSubMenu=By.xpath("//ul[@id='menu']/li[6]/ul/li");
+	By custMenu=By.xpath("//ul[@id='menu']/li[@id='customer']");
+	By custSubMenu=By.xpath("//ul[@id='menu']/li[@id='customer']/ul/li/a[contains(text(),'Customers')]");
 	By custName=By.id("input-name");
 	By custFilter=By.id("button-filter");
 	By tr=By.xpath("//form[@id='form-customer']/div/table/tbody/tr");

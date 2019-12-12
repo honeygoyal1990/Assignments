@@ -7,8 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 public class ProductsPage {
-	By ProductMenu=By.xpath("//ul[@id='menu']/li[2]");
-	By productSubMenu=By.xpath("//ul[@id='menu']/li[2]/ul/li[2]");
+	By ProductMenu=By.xpath("//ul[@id='menu']/li[@id='catalog']");
+	By productSubMenu=By.xpath("//ul[@id='menu']/li[@id='catalog']/ul/li/a[contains(text(),'Products')]");
 By qtytextBox =By.xpath("//input[@id='input-quantity']");
 By editBtn = By.xpath("//form[@id='form-product']//div//table//tbody//a[@class='btn btn-primary'][1]");
 By Btn = By.xpath("//a[@class='btn btn-primary'][1]");
