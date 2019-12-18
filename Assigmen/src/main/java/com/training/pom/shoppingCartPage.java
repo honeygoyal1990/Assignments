@@ -17,6 +17,19 @@ By shopFilter = By.id("button-filter");
 	By editBtn = By.xpath("//form[@id='form-order']//div//table//tbody//tr//td[8]//a[@class='btn btn-primary'][1]");
 	By Btn = By.xpath("//a[@class='btn btn-primary'][1]");
 By continueBtn=By.xpath("//button[@id='button-customer']");
+By trProduct = By.xpath("//form[@id='form-product']//div//table//tbody//tr");
+By delBtn=By.xpath("//i[@class='fa fa-trash-o']");
+By trOrder = By.xpath("//table[@class='table table-bordered']/tbody/tr");
+public WebElement getTableRowProduct(WebDriver driver) {
+	
+	return driver.findElement(this.trProduct);
+	
+}
+public WebElement getTableRowOrder(WebDriver driver) {
+	
+	return driver.findElement(this.trOrder);
+	
+}
 	public WebElement getshopMenu(WebDriver driver) {
 		
 		return driver.findElement(this.shoppingMenu);
@@ -66,6 +79,11 @@ public List<WebElement> getBtn(WebDriver driver) {
 public WebElement geteditbtn(WebDriver driver) {
 	
 	return driver.findElement(this.editBtn);
+	
+}
+public WebElement getDelbtn(WebDriver driver) {
+	
+	return driver.findElement(this.delBtn);
 	
 }
 }

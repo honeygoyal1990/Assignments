@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -114,13 +115,12 @@ public class LoginTests {
 	}
 	@Test(priority=2)
 	public void Sales() throws InterruptedException {
+		String expectedmsg = "Success: You have modified returns!";
 		Thread.sleep(1000);
 		Actions act=new Actions(driver);
 		act.moveToElement(sale.getsalesMenu(driver)).build().perform();
-		Thread.sleep(1000);
+		Thread.sleep(500);
 		
-		act.moveToElement(sale.getSubMenu(driver).get(0)).click().build().perform();
-		Thread.sleep(1000);
 		int i,countOfElement;
 		String[] expectedEle= {"Orders","Tax","Shipping","Returns","Coupons"};
 		countOfElement=sale.getSubMenu(driver).size();
@@ -128,12 +128,16 @@ public class LoginTests {
 		for(i=0;i<countOfElement;i++) {
 			org.testng.Assert.assertEquals(expectedEle[i],sale.getsalesSubMenu(driver).getText());
 			
-			
 		}
-	
-		act.moveToElement(sale.getsalesSubMenu(driver)).click().build().perform();
-		Thread.sleep(1000);
-	
+		act.moveToElement(sale.getreturnsSubMenu(driver)).click().build().perform();
+		
+		Thread.sleep(500);
+		sale.gettrOrdertoDel(driver).click();
+		sale.getdelbtn(driver).click();
+		Thread.sleep(400);
+		driver.switchTo().alert().accept();
+		Thread.sleep(400);
+		Assert.assertTrue(sale.getmsgBox(driver).getText().contains(expectedmsg));
 		
 	}
 

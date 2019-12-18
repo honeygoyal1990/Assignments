@@ -67,7 +67,7 @@ public class Assignment2 {
 	}
 	
 	
-	@Test(enabled=false)
+	@Test()
 	public void Catalog() throws InterruptedException
 	{
 		int editProduct=0;
@@ -89,17 +89,19 @@ public class Assignment2 {
 		prods.getprodSubMenu(driver).click();
 		Thread.sleep(1000);
 	}	
-	@Test(priority=1,enabled=false)
+	@Test(priority=1)
 	void delete() throws InterruptedException
-	{
+	{int Counter=0;
 		Actions act =new Actions(driver);
 		getProduct(act);
 		String expected=properties.getProperty("expectedProd");
-		Assert.assertEquals(driver.findElement(By.xpath("//form[@id='form-product']//div//table//tbody//tr//td[contains(text(),'"+expected+"')]")).getText(), expected);
 		
-		int size=driver.findElements(By.xpath("//form[@id='form-product']//div//table//tbody//tr//td[contains(text(),'"+expected+"')]")).size();
-		List<WebElement> list=driver.findElements(By.xpath("//form[@id='form-product']//div//table//tbody//tr//td[contains(text(),'"+expected+"')]"));
-		System.out.println("Size is "+size);
+		
+		int size=shop.getTableRowProduct(driver).findElements(By.xpath("./td[contains(text(),'"+expected+"')]")).size();
+		if(size>0)
+		{
+		List<WebElement> list=shop.getTableRowProduct(driver).findElements(By.xpath("./td[contains(text(),'"+expected+"')]"));
+		
 		for(WebElement we:list)
 		{
 			if(expected.equals(we.getText()))
@@ -107,12 +109,20 @@ public class Assignment2 {
 				System.out.println("hey");
 				btnClick(we.findElement(By.xpath("./parent::tr")).findElement(By.xpath("./td[1]")));
 				System.out.println(we.findElement(By.xpath("./parent::tr")).findElement(By.xpath("./td[6]")).getText());
+				Counter++;
 			}
 		}
-		driver.findElement(By.xpath("//i[@class='fa fa-trash-o']")).click();
+		if(Counter>0) {
+		btnClick(shop.getDelbtn(driver));
 		driver.switchTo().alert().accept();
 		Thread.sleep(1000);
 		Assert.assertEquals(expectedmsg.contains(prods.getmsg(driver).getText()),true);
+		System.out.println("Total Items deleted : "+Counter);}	
+		else
+			System.out.println("No Such Element present");
+			}
+		else
+			System.out.println("No Such Element present");
 	}
 	@Test(priority=2)
 	void orders() throws InterruptedException
@@ -129,16 +139,17 @@ public class Assignment2 {
 		
 		
 		try {
-			if(driver.findElements(By.xpath("//table[@class='table table-bordered']/tbody/tr/td")).size()==1)
+			if(shop.getTableRowOrder(driver).findElements(By.xpath("./td")).size()==1)
 			{
-				if(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td")).getText().contains("No Result"))
+				if(shop.getTableRowOrder(driver).findElement(By.xpath("./td")).getText().contains("No Result"))
 				System.out.println("No Element to delete");
+				
 			}
 			else {
-		if(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td[contains(text(),'REGULAR T-SHIRTS (Rust) ')]")).isDisplayed()) {
+		if(shop.getTableRowOrder(driver).findElement(By.xpath("./td[contains(text(),'REGULAR T-SHIRTS (Rust) ')]")).isDisplayed()) {
 			
 	System.out.println("Item deleted");
-			btnClick(driver.findElement(By.xpath("//table[@class='table table-bordered']/tbody/tr/td[6]/button[@data-original-title='Remove']")));
+			btnClick(shop.getTableRowOrder(driver).findElement(By.xpath("./td[6]/button[@data-original-title='Remove']")));
 		}		}
 		}
 		catch(NullPointerException e) {
