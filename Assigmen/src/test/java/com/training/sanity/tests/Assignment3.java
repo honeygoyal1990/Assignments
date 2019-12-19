@@ -26,6 +26,7 @@ import com.training.pom.LoginPOM;
 import com.training.pom.OrdersPage;
 import com.training.pom.ProductReturnPage;
 import com.training.pom.ProductsPage;
+import com.training.pom.UpskillsPage;
 import com.training.utility.DriverFactory;
 import com.training.utility.DriverNames;
 
@@ -38,7 +39,7 @@ import com.training.pom.salesPage;
 import com.training.pom.shoppingCartPage;
 
 public class Assignment3 {
-
+UpskillsPage ups=new UpskillsPage();
 	private WebDriver driver;
 	private String baseUrl,url;
 	private LoginPOM loginPOM;
@@ -49,7 +50,7 @@ public class Assignment3 {
 	LocatorInfo loc=new LocatorInfo();
 	OrdersPage order=new OrdersPage();
 	BillingDetailsPage bill = new BillingDetailsPage();
-	String username,password;
+	String username,password,userid,pass;
 	salesPage sale=new salesPage();
 	String expectedmsg = "Success: You have modified products!";
 	@BeforeTest
@@ -73,8 +74,9 @@ public class Assignment3 {
 		loc.getPassword(driver).sendKeys(password);
 		loc.logBtn(driver).click();
 		url=properties.getProperty("URL");
-	}
-	
+		userid=properties.getProperty("Username");
+pass=properties.getProperty("password");
+	}	
 	@AfterTest
 	public void tearDown() throws Exception {
 		Thread.sleep(1000);
@@ -117,21 +119,14 @@ public class Assignment3 {
 	}
 @Test(priority=1)
 void ProductaddGuest() throws InterruptedException {
-	int size;
-	 WebElement bodyElement = driver.findElement(By.tagName("body"));
-	 
-	 
-			  bodyElement.sendKeys(Keys.CONTROL + "t");
+		 WebElement bodyElement = driver.findElement(By.tagName("body"));
+	 	  bodyElement.sendKeys(Keys.CONTROL + "t");
 		  Thread.sleep(1000);
 		  System.out.println("Open a newtab.");
-	  
-	
-	driver.get(url);
+	  	driver.get(url);
 	Actions act =new Actions(driver);
 	act.moveToElement(guest.getImgprod(driver)).click().build().perform();
 	Thread.sleep(500);
-	//guest.getAddBtn(driver).click();
-	//Thread.sleep(500);
 	Select select = new Select(guest.getSelectChestSize(driver));
 	select.selectByVisibleText("42");
 	btnClick(guest.getcartbtn(driver));
@@ -209,5 +204,40 @@ void test1() throws InterruptedException
 		we.sendKeys(str);
 		Thread.sleep(500);
 	}
-
+@Test(priority=3)
+void order() throws InterruptedException {
+	driver.get(url);
+	Thread.sleep(1000);
+	ups.getmainbtn(driver).click();
+	Thread.sleep(4000);
+	System.out.println("Welcome to Before Class");
+		ups.getloginoption(driver).click();
+	Thread.sleep(2000);
+	ups.getemail(driver).sendKeys(userid);
+	ups.getpassword(driver).sendKeys(pass);
+	ups.getlogbtn(driver).click();	
+	Thread.sleep(1000);
+	ups.getusericon(driver).click();
+	Thread.sleep(500);
+	ups.getorderHistory(driver).click();
+	Thread.sleep(500);
+	ups.gettrOrder(driver).click();
+	Thread.sleep(500);
+	ups.gettrreturnbtn(driver).click();
+	Thread.sleep(500);
+	if(ups.getRdreturnrs(driver).getText().contains("Dead On Arrival"))
+		ups.getRdreturnrs(driver).findElement(By.xpath("./input")).click();
+	if(ups.getRdopened(driver).getText().contains("Yes"))
+		ups.getRdopened(driver).findElement(By.xpath("./input")).click();
+		ups.gettxtarea(driver).sendKeys("Testing return");
+		ups.getbtnagree(driver).click();
+	ups.getbtnsubmit(driver).click();
+	Thread.sleep(1000);
+	String act="";
+			for(WebElement we:ups.getsuccessMsg(driver))
+			{
+				act	=act+we.getText();}
+			String Expected="Thank you for submitting your return request. Your request has been sent to the relevant department for processing.You will be notified via e-mail as to the status of your request.";
+		Assert.assertEquals(act, Expected);	
+}
 }
